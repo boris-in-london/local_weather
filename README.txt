@@ -1,7 +1,8 @@
-This weather app is a programming challenge to learn a core set of skills.
+This weather app is a programming challenge to learn a core set of
+skills. Challenge from freecodecamp.com.
 
-Skills Practiced: 1) Git version control system, I'm using Git as source code
-                     control.
+Skills Practiced: 1) Git version control system, I'm using Git as
+                  source code control system.
                   2) Three sets of style guide for html, css and javascript.
                   3) The features of ES6.
                   4) Orthogonal (modular) design.
