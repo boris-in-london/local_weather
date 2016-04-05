@@ -7,23 +7,23 @@
 // whatTemp is a module that can be used to convert celcius temprature to
 // fahrenheit temprature then send that info to an html element. It takes
 // a number temprature (temp) and a string (htmEle) as arguments.
-let whatTemp = (function( temp, htmlEle ) {
-  let fahrenheit;
-  let tempEle = document.getElementsByClassName( htmlEle )[0];
-  let celcius = temp;
+let whatTemp = (() => {
   let pub = {};
 
-  pub.fahren = function convert() {
+  pub.fahren = function convert( temp, htmlEle ) {
+    let fahrenheit;
+    let tempEle = document.getElementsByClassName( htmlEle )[0];
     fahrenheit = temp * 9/5 + 32;
     tempEle.innHTML = `Temprature: ${fahrenheit}`;
   }
 
-  pub.celsi = function dontConvert() {
+  pub.celsi = function dontConvert( temp, htmlEle ) {
+    let tempEle = document.getElementsByClassName( htmlEle )[0];
     tempEle.innerHTML = `Temprature: ${temp}`;
   };
 
   return pub;
-})( temp, htmlEle );
+})();
 
 
 // doItAll is the main executer function, which we use to organize our code,
@@ -33,7 +33,7 @@ function doItAll( pos ) {
   let weatherObj;
   let tempEle = "weather-temp";
   let symbolEle = "weather-symbol";
-  let cityEle = "weather-city");
+  let cityEle = "weather-city";
   let detailsEle = "weather-details";
   let unit = "metric";
   let weatherUrl =
@@ -44,8 +44,8 @@ function doItAll( pos ) {
   // Our API call to Openweather.com.
   $.getJSON( weatherUrl, json => {
       weatherObj = Object.create( json );
-      whatCity( weatherObj.name, weatherObj.sys.country );
-      whatTemp( weatherObj.main.temp );
+      whatCity( weatherObj.name, weatherObj.sys.country, cityEle );
+      whatTemp.celsi( weatherObj.main.temp, tempEle );
       console.log( json );
     }
   );
