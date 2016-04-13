@@ -5,21 +5,21 @@
 
 
 // whatTemp is a module that can be used to convert celcius temprature to
-// fahrenheit temprature then send that info to an html element. It takes
-// a number temprature (temp) and a string (htmEle) as arguments.
+// fahrenheit temprature. It takes a number (temp) as an argument.  The reason
+// this is a module and not a function is because i was hoping to do a lot more
+// with this module,  i may still.
 let whatTemp = (() => {
   let pub = {};
 
-  pub.fahren = function convert( temp, htmlEle ) {
-    let fahrenheit;
-    let tempEle = document.getElementsByClassName( htmlEle )[0];
-    fahrenheit = temp * 9/5 + 32;
-    tempEle.innHTML = `Temprature: ${fahrenheit}`;
-  }
+  pub.fahren = function convert( temp ) {
+    let fahrenheit = temp * 9/5 + 32;
 
-  pub.celsi = function dontConvert( temp, htmlEle ) {
-    let tempEle = document.getElementsByClassName( htmlEle )[0];
-    tempEle.innerHTML = `Temprature: ${temp}`;
+    return fahrenheit;
+  };
+
+  pub.celsi = function dontConvert( temp ) {
+
+    return temp;
   };
 
   return pub;
@@ -28,9 +28,8 @@ let whatTemp = (() => {
 
 // doItAll is the main executer function, which we use to organize our code,
 // calling modules and functions within it. It contains the main API call
-// to OpenWeather.com, which fetches an object with weather details.
+// to OpenWeather.com, which fetches an object with weather details/info.
 function doItAll( pos ) {
-  let weatherObj;
   let tempEle = "weather-temp";
   let symbolEle = "weather-symbol";
   let cityEle = "weather-city";
@@ -43,12 +42,32 @@ function doItAll( pos ) {
 
   // Our API call to Openweather.com.
   $.getJSON( weatherUrl, json => {
-      weatherObj = Object.create( json );
+      let weatherObj = Object.create( json );
+      let btnEle = document.getElementsByName("my-checkbox");
+      let celsiVar = weatherObj.main.temp;
+      let fahrVar = whatTemp.fahren( weatherObj.main.temp);
+      $.fn.bootstrapSwitch.defaults.onText = "&#8451;";
+      $.fn.bootstrapSwitch.defaults.offText = "&#8457;";
+      $.fn.bootstrapSwitch.defaults.offColor = "danger";
+      $.fn.bootstrapSwitch.defaults.size = "large";
+      $.fn.bootstrapSwitch.defaults.labelWidth = "0";
+      document.getElementsByClassName( tempEle )[0].innerHTML = celsiVar;
+
       whatCity( weatherObj.name, weatherObj.sys.country, cityEle );
-      whatTemp.celsi( weatherObj.main.temp, tempEle );
+
+      $("[name='my-checkbox']").bootstrapSwitch();
+
+      $("[name='my-checkbox']").on("switchChange.bootstrapSwitch", ( e, s ) =>
+      {
+        if ( !$("[name='my-checkbox']").bootstrapSwitch("state") ) {
+          document.getElementsByClassName( tempEle )[0].innerHTML = fahrVar;
+        } else {
+          document.getElementsByClassName( tempEle )[0].innerHTML = celsiVar;
+        }
+      });
+
       console.log( json );
-    }
-  );
+  } );
 }
 
 
@@ -65,9 +84,6 @@ function whatCity( city, country, htmlEle ) {
 
 
 function whatIcon(){};
-
-
-function celiOrFahren(){};
 
 //  This is where it all starts, Geolocation is a built in API used to identify
 // a clients location,  if Geolocation is available it returns longitude and
