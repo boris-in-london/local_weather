@@ -41,8 +41,50 @@ function doItAll( pos ) {
   `&APPID=d901c95e6d0b4ab619c79b405f20d86c&units=${unit}`;
 
   // Our API call to Openweather.com.
-  $.getJSON( weatherUrl, json => {
-      let weatherObj = Object.create( json );
+  //XXX:uncomment $.getJSON( weatherUrl, json => {
+      let weatherObj = {
+        "coord": {
+          "lon": -79.47,
+          "lat": 43.63
+        },
+        "weather": [
+          {
+            "id": 600,
+            "main": "Snow",
+            "description": "light snow",
+            "icon": "13d"
+          }
+        ],
+        "base": "stations",
+        "main": {
+          "temp": -2,
+          "pressure": 1021,
+          "humidity": 92,
+          "temp_min": -2,
+          "temp_max": -2
+        },
+        "visibility": 1609,
+        "wind": {
+          "speed": 4.1,
+          "deg": 170
+        },
+        "clouds": {
+          "all": 90
+        },
+        "dt": 1481486820,
+        "sys": {
+          "type": 1,
+          "id": 3722,
+          "message": 0.1643,
+          "country": "CA",
+          "sunrise": 1481460141,
+          "sunset": 1481492473
+        },
+        "id": 6160378,
+        "name": "Swansea",
+        "cod": 200
+      };
+      //XXX:uncomment Object.create( json );
       let btnEle = document.getElementsByName("my-checkbox");
       let celsiVar = weatherObj.main.temp;
       let fahrVar = whatTemp.fahren( weatherObj.main.temp);
@@ -67,7 +109,7 @@ function doItAll( pos ) {
       });
 
       console.log( json );
-  } );
+  //XXX:uncomment} );
 }
 
 
