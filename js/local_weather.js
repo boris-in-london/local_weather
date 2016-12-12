@@ -41,50 +41,10 @@ function doItAll( pos ) {
   `&APPID=d901c95e6d0b4ab619c79b405f20d86c&units=${unit}`;
 
   // Our API call to Openweather.com.
-  //XXX:uncomment $.getJSON( weatherUrl, json => {
-      let weatherObj = {
-        "coord": {
-          "lon": -79.47,
-          "lat": 43.63
-        },
-        "weather": [
-          {
-            "id": 600,
-            "main": "Snow",
-            "description": "light snow",
-            "icon": "13d"
-          }
-        ],
-        "base": "stations",
-        "main": {
-          "temp": -2,
-          "pressure": 1021,
-          "humidity": 92,
-          "temp_min": -2,
-          "temp_max": -2
-        },
-        "visibility": 1609,
-        "wind": {
-          "speed": 4.1,
-          "deg": 170
-        },
-        "clouds": {
-          "all": 90
-        },
-        "dt": 1481486820,
-        "sys": {
-          "type": 1,
-          "id": 3722,
-          "message": 0.1643,
-          "country": "CA",
-          "sunrise": 1481460141,
-          "sunset": 1481492473
-        },
-        "id": 6160378,
-        "name": "Swansea",
-        "cod": 200
-      };
-      //XXX:uncomment Object.create( json );
+  $.getJSON( weatherUrl, json => {
+      let  weatherObj = Object.create( json );
+      let detailsObj = weatherObj.weather[0].description;
+      let symbolTempy = `wi-owm-${weatherObj.weather[0].id}`;
       let btnEle = document.getElementsByName("my-checkbox");
       let celsiVar = weatherObj.main.temp;
       let fahrVar = whatTemp.fahren( weatherObj.main.temp);
@@ -94,7 +54,9 @@ function doItAll( pos ) {
       $.fn.bootstrapSwitch.defaults.size = "large";
       $.fn.bootstrapSwitch.defaults.labelWidth = "0";
       document.getElementsByClassName( tempEle )[0].innerHTML = celsiVar;
+      document.getElementsByClassName( detailsEle )[0].innerHTML = detailsObj;
 
+      whatIcon(symbolEle, symbolTempy);
       whatCity( weatherObj.name, weatherObj.sys.country, cityEle );
 
       $("[name='my-checkbox']").bootstrapSwitch();
@@ -107,12 +69,9 @@ function doItAll( pos ) {
           document.getElementsByClassName( tempEle )[0].innerHTML = celsiVar;
         }
       });
-
-      console.log( json );
-  //XXX:uncomment} );
+    }
+  );
 }
-
-
 function ifErr( err ) {
   console.log( err );
 }
@@ -125,8 +84,9 @@ function whatCity( city, country, htmlEle ) {
 };
 
 
-function whatIcon(){};
-
+function whatIcon( x, y ){
+  document.getElementsByClassName( x )[0].classList.add( y );
+};
 //  This is where it all starts, Geolocation is a built in API used to identify
 // a clients location,  if Geolocation is available it returns longitude and
 // latitude cooridents which we pass into our doIAll functioun, which does it
