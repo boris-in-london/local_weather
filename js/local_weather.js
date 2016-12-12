@@ -46,8 +46,8 @@ function doItAll( pos ) {
       let detailsObj = weatherObj.weather[0].description;
       let symbolTempy = `wi-owm-${weatherObj.weather[0].id}`;
       let btnEle = document.getElementsByName("my-checkbox");
-      let celsiVar = weatherObj.main.temp;
-      let fahrVar = whatTemp.fahren( weatherObj.main.temp);
+      let celsiVar = Math.round( weatherObj.main.temp );
+      let fahrVar = Math.round( whatTemp.fahren( weatherObj.main.temp ) );
       $.fn.bootstrapSwitch.defaults.onText = "&#8451;";
       $.fn.bootstrapSwitch.defaults.offText = "&#8457;";
       $.fn.bootstrapSwitch.defaults.offColor = "danger";
