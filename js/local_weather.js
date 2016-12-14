@@ -36,7 +36,7 @@ function doItAll( pos ) {
   let detailsEle = "weather-details";
   let unit = "metric";
   let weatherUrl =
-  `http://api.openweathermap.org/data/2.5/weather?` +
+  `https://api.openweathermap.org/data/2.5/weather?` +
   `lat=${pos.coords.latitude}&lon=${pos.coords.longitude}` +
   `&APPID=d901c95e6d0b4ab619c79b405f20d86c&units=${unit}`;
 
@@ -72,6 +72,8 @@ function doItAll( pos ) {
     }
   );
 }
+
+
 function ifErr( err ) {
   console.log( err );
 }
@@ -89,7 +91,7 @@ function whatIcon( x, y ){
 };
 //  This is where it all starts, Geolocation is a built in API used to identify
 // a clients location,  if Geolocation is available it returns longitude and
-// latitude cooridents which we pass into our doIAll functioun, which does it
+// latitude cooridents which we pass into our doItAll functioun, which does it
 // all.
 if ( "geolocation" in navigator ) {
   navigator.geolocation.getCurrentPosition( doItAll, ifErr );

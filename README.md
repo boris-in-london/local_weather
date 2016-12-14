@@ -12,3 +12,6 @@ User Case Stories: 1) I can see the weather at my current location.
                    2) I can see a different icon/image depending on the weather.
                    3) I can push a button to toggle between fahrenheit and
                       celsius.
+
+
+It's a horrible mess of spaghetti code.  I'm not proud of this.
